@@ -26,9 +26,16 @@ class BookDetailViewController: UIViewController {
         bookTextView.text = "IN VIEWDIDLOAD"
         //bookTitle.text = segueTitle
          bookData = getJson(title: segueTitle)
+        if bookData.isEmpty {
+            print("EMPTYDATA")
+            
+        } else {
+            print("THERE IS DATA")
+        }
         
         
-        print("FOUND DATA")
+        
+     
         
         for item in bookData{
             print("_______DATA__________")
@@ -73,7 +80,7 @@ class BookDetailViewController: UIViewController {
                 
                 // Parse the data into a json.
                 let json = try! JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
-                //print(json.value(forKey: "items"))
+             
                 
                 let items = json.value(forKey: "items") as! NSArray
                 
@@ -84,25 +91,23 @@ class BookDetailViewController: UIViewController {
                 
                 //print("BOOKDETAILS", bookDetails.value(forKey: "authors"))
                 
+                //Dive into json file
+                
                 let bookAuthor = bookDetails.value(forKey: "authors") as! NSArray
                 let bookDescription = bookDetails.value(forKey: "description")
                 let titleBook = bookDetails.value(forKey: "title") as! String
-                print("TITLE", titleBook)
-                 print("AUTHOR", bookAuthor[0])
-                print("DESCRIPTION", bookDescription!)
-                
                 let finalAuthor = bookAuthor[0] as! String
                 let finalTitle = titleBook
                 let finalDescription = bookDescription! as! String
-                print("FINALDESCRIPTION", finalDescription)
-//                if self.data["Title"] != nil {
-//                    self.titles.append(self.data["Title"]!)
+             
                 
+                print("TITLE", titleBook)
+                print("AUTHOR", bookAuthor[0])
+                print("DESCRIPTION", bookDescription!)
+                
+                // Update view
                 self.author.text = finalAuthor
                 self.bookTitle.text = finalTitle
-                //self.loadView()
-//                //self.bookDescription.text = "CHECK"
-//                self.bookTextView.text = "CHECK"
                 bookData.append(finalTitle)
                 bookData.append(finalAuthor)
                 bookData.append(finalDescription)
@@ -115,7 +120,6 @@ class BookDetailViewController: UIViewController {
                 
             }
          task.resume()
-        self.loadView()
          return bookData
         }
     }

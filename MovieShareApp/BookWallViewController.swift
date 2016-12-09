@@ -120,7 +120,7 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
         
             cell.title.text = posts[indexPath.row].title
         
-            cell.emailOfOwner.text = posts[indexPath.row].email
+            cell.emailOfOwner.text = "From : "+posts[indexPath.row].email
         
             if posts[indexPath.row].reserved == true {
         
@@ -142,7 +142,6 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
         let title = bookTitle
         let reserved = false
         let email = user?.email
-        //CHANGED FALSE TO RESERVED
         let post: [String: Any] = ["email" : email,
                                    "reserved" : reserved,
                                    "title" : title]
