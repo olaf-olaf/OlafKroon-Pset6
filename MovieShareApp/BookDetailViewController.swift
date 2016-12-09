@@ -13,21 +13,28 @@ class BookDetailViewController: UIViewController {
     @IBOutlet weak var author: UILabel!
     @IBOutlet weak var bookCover: UIImageView!
     @IBOutlet weak var bookTitle: UILabel!
-    @IBOutlet weak var bookDescription: UITextView!
+    @IBOutlet weak var bookTextView: UITextView!
     
     var data = [String: Any]()
-    
     var segueTitle = String()
+    var bookData = [String]()
     
-   
+  
     override func viewDidLoad() {
-        print("SEGUED", segueTitle)
-        bookTitle.text = segueTitle
-        super.viewDidLoad()
-        getJson(title: segueTitle)
         
-        // If the button is clicked get a json from the title the user has given.
-                // Do any additional setup after loading the view.
+        print("SEGUED", segueTitle)
+        bookTextView.text = "IN VIEWDIDLOAD"
+        //bookTitle.text = segueTitle
+         bookData = getJson(title: segueTitle)
+        
+        
+        print("FOUND DATA")
+        
+        for item in bookData{
+            print("_______DATA__________")
+            print(item)
+        }
+        super.viewDidLoad()
     }
     
 
@@ -36,7 +43,9 @@ class BookDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func getJson(title: String) {
+    func getJson(title: String) -> [String] {
+        
+            var bookData = [String]()
         
             let filler = title.replacingOccurrences(of: " ", with: "+", options: .literal, range: nil)
             print("FILLER", filler)
@@ -69,27 +78,45 @@ class BookDetailViewController: UIViewController {
                 let items = json.value(forKey: "items") as! NSArray
                 
                 let book = items[0] as! NSDictionary
-                //print("BOOK",book.value(forKey: "volumeInfo"))
+                
                 
                 let bookDetails = book.value(forKey: "volumeInfo") as! NSDictionary
                 
-                print("BOOKDETAILS", bookDetails.value(forKey: "authors"))
+                //print("BOOKDETAILS", bookDetails.value(forKey: "authors"))
+                
+                let bookAuthor = bookDetails.value(forKey: "authors") as! NSArray
+                let bookDescription = bookDetails.value(forKey: "description")
+                let titleBook = bookDetails.value(forKey: "title") as! String
+                print("TITLE", titleBook)
+                 print("AUTHOR", bookAuthor[0])
+                print("DESCRIPTION", bookDescription!)
+                
+                let finalAuthor = bookAuthor[0] as! String
+                let finalTitle = titleBook
+                let finalDescription = bookDescription! as! String
+                print("FINALDESCRIPTION", finalDescription)
+//                if self.data["Title"] != nil {
+//                    self.titles.append(self.data["Title"]!)
+                
+                self.author.text = finalAuthor
+                self.bookTitle.text = finalTitle
+                //self.loadView()
+//                //self.bookDescription.text = "CHECK"
+//                self.bookTextView.text = "CHECK"
+                bookData.append(finalTitle)
+                bookData.append(finalAuthor)
+                bookData.append(finalDescription)
+                
+                
+                
+//                self.bookDescription.text = bookDescription! as! String
 
                 
-                
-               
-                
-                // Put the json into a dictionary.
-                //self.data = json as! [String : String]
-               // print("_________DATA_________",self.data)
-
-                
-//                if self.data["Response"] == "False" {
-//                    print("BOOK NOT FOUND")
-//                }
                 
             }
          task.resume()
+        self.loadView()
+         return bookData
         }
     }
 
