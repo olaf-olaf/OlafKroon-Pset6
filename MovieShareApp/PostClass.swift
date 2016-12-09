@@ -14,6 +14,7 @@ class Post {
     var reserved = Bool()
     var title = String()
     var id = String()
+    var parent = String()
     
     
     init(email: String, reserved: Bool, title: String) {
@@ -21,44 +22,6 @@ class Post {
         self.email = email
         self.reserved = reserved
         self.title = title
+        
     }
-    
-    
-    
-    //
-    //        let dataBaseref  = FIRDatabase.database().reference()
-    //        dataBaseref.child("posts").queryOrderedByKey().observe(.childAdded, with: { snapshot in
-    //            print ("SNAPSHOT")
-    //
-    //
-    //            let value = snapshot.value as? NSDictionary
-    //
-    //            let title = value!["title"] as! String
-    //            let email = value!["title"] as! String
-    //            let reserved = value!["reserved"] as! Bool
-    //
-    //            // Append data to posts array
-    //            self.posts.insert(Post(email: email, reserved: reserved, title: title), at: 0)
-    //
-    //            for post in self.posts {
-    //
-    //                print("TITLECHECKER", post.title)
-    //            }
-    //self.TableView.reloadData()
-    
-    //        })
-    
-    //        cell.title.text = posts[indexPath.row].title
-    //
-    //        cell.emailOfOwner.text = posts[indexPath.row].email
-    //
-    //        if posts[indexPath.row].reserved == true {
-    //
-    //            cell.accessoryType = .checkmark
-    //        } else {
-    //
-    //              cell.accessoryType = .none
-    //            
-    //        }
-    
 }

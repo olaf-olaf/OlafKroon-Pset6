@@ -10,6 +10,7 @@
 		3C9E7B26D64E7440B0D23D16 /* Pods_MovieShareAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CAFCAAA9681418CFD850285 /* Pods_MovieShareAppTests.framework */; };
 		76D656D8665AE33AD67E6C86 /* Pods_MovieShareApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F15CC64658D67C61553BF89 /* Pods_MovieShareApp.framework */; };
 		E7C3F16845512F800449FED9 /* Pods_MovieShareAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D48AC5447C2DEE5219B2037 /* Pods_MovieShareAppUITests.framework */; };
+		ED0D49901DFA9B11009B9324 /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0D498F1DFA9B11009B9324 /* BookDetailViewController.swift */; };
 		ED2176531DF6C80600A77792 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2176521DF6C80600A77792 /* AppDelegate.swift */; };
 		ED2176551DF6C80600A77792 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2176541DF6C80600A77792 /* ViewController.swift */; };
 		ED2176581DF6C80600A77792 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED2176561DF6C80600A77792 /* Main.storyboard */; };
@@ -50,6 +51,7 @@
 		6F15CC64658D67C61553BF89 /* Pods_MovieShareApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MovieShareApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7461B71DEC6EF10CD211214A /* Pods-MovieShareApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieShareApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieShareApp/Pods-MovieShareApp.debug.xcconfig"; sourceTree = "<group>"; };
 		779FBC5A210CE75962A46770 /* Pods-MovieShareAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieShareAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieShareAppTests/Pods-MovieShareAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		ED0D498F1DFA9B11009B9324 /* BookDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
 		ED21764F1DF6C80600A77792 /* MovieShareApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieShareApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED2176521DF6C80600A77792 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ED2176541DF6C80600A77792 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				ED2176521DF6C80600A77792 /* AppDelegate.swift */,
 				ED2176541DF6C80600A77792 /* ViewController.swift */,
 				ED2176561DF6C80600A77792 /* Main.storyboard */,
+				ED0D498F1DFA9B11009B9324 /* BookDetailViewController.swift */,
 				EDB124321DF8303000EA3B04 /* BookWallViewController.swift */,
 				EDB124301DF82FF400EA3B04 /* BookWallTableViewCell.swift */,
 				EDB124351DF8583C00EA3B04 /* PostClass.swift */,
@@ -461,6 +464,7 @@
 			files = (
 				ED2176551DF6C80600A77792 /* ViewController.swift in Sources */,
 				EDB124331DF8303000EA3B04 /* BookWallViewController.swift in Sources */,
+				ED0D49901DFA9B11009B9324 /* BookDetailViewController.swift in Sources */,
 				EDB124311DF82FF400EA3B04 /* BookWallTableViewCell.swift in Sources */,
 				EDB124361DF8583C00EA3B04 /* PostClass.swift in Sources */,
 				ED2176531DF6C80600A77792 /* AppDelegate.swift in Sources */,
