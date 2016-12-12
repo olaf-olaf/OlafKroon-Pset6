@@ -12,9 +12,6 @@ import Firebase
 
 class DatabaseHelper {
     
-    
-    
-    
     init () {
         
     }
@@ -43,8 +40,32 @@ class DatabaseHelper {
         posts.remove(at: index)
         
     }
+    
+    
+    func updateReserved(index: Int,posts: inout [Post]) {
+        
+        let parentId = posts[index].parent
+        
+        var ref: FIRDatabaseReference!
+        ref = FIRDatabase.database().reference()
+        
+        print(posts[index].reserved)
+        
+        if posts[index].reserved == false {
+            
+            //Update database and posts array to true
+            ref.child("posts").child(parentId).updateChildValues(["reserved": true])
+            posts[index].reserved = true
+            print("UPDATED",posts[index].reserved)
 
-    
-    
+        } else {
+            
+            //Update database and posts array to false
+            ref.child("posts").child(parentId).updateChildValues(["reserved": false])
+            posts[index].reserved = false
+            print("UPDATED",posts[index].reserved)
+        }
+
+    }
     
 }

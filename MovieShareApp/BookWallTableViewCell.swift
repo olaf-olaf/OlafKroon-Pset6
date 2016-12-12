@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MGSwipeTableCell
 
-class BookWallTableViewCell: UITableViewCell {
+class BookWallTableViewCell: MGSwipeTableCell {
 
     @IBOutlet weak var emailOfOwner: UILabel!
     @IBOutlet weak var title: UILabel!

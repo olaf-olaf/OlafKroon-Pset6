@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import MGSwipeTableCell
 
 
 class BookWallViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -26,12 +27,10 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-  
         // Do any additional setup after loading the view.
         let dataBaseref = FIRDatabase.database().reference()
         let dataId = dataBaseref.child("posts"); dataId.queryOrderedByKey().observe(.childAdded, with: { (snapshot) in
             
-           
             // Get the key of the parent node
             let ref = snapshot.ref
             let parentId = ref.key
@@ -61,6 +60,7 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
         return true
     }
     
+
     // Enable deletion of cells by the user.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
@@ -68,9 +68,6 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
         if editingStyle == .delete {
             db.delete(parentId: posts[indexPath.row].parent, index: indexPath.row, posts: &posts)
             tableView.reloadData()
-            for item in posts {
-                print(item.title)
-            }
         }
     }
     
@@ -96,7 +93,11 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! BookWallTableViewCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! BookWallTableViewCell
+        if cell == nil
+        {
+            cell = BookWallTableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+        }
         
             cell.title.text = posts[indexPath.row].title
         
@@ -111,42 +112,23 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
         
             }
         
+//        //configure left buttons
+        cell.leftButtons = [MGSwipeButton(title: "Reserve",backgroundColor: UIColor.blue, callback: {
+            (sender: MGSwipeTableCell!) -> Bool in
+            print("TOUCHED")
+            self.db.updateReserved(index: indexPath.row, posts: &self.posts)
+            if self.posts[indexPath.row].reserved == true {
+                cell.accessoryType = .checkmark
+            } else {
+            cell.accessoryType = .none
+            }
+
+            return true
+        })]
+        cell.leftSwipeSettings.transition = MGSwipeTransition.rotate3D  
         return cell
     }
-   
     
-    // DATABASE FUNCTIONS
-    func post(bookTitle: String) {
-        
-        let user = FIRAuth.auth()?.currentUser
-        let title = bookTitle
-        let reserved = false
-        let email = user?.email
-        let post: [String: Any] = ["email" : email,
-                                   "reserved" : reserved,
-                                   "title" : title]
-        let dataBaseReference = FIRDatabase.database().reference()
-        
-        let postRef = dataBaseReference.child("posts").childByAutoId();postRef.setValue(post)
-        
-        let postId = postRef.key
-        
-        print("POSTID", postId)
-        
-        
-
-    }
-    
-    func delete(parentId: String, index: Int) {
-        
-        var ref: FIRDatabaseReference!
-        ref = FIRDatabase.database().reference()
-        
-        ref.child("posts").child(parentId).removeValue()
-        posts.remove(at: index)
-        Tableview.reloadData()
-
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -156,6 +138,8 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func addBook(_ sender: Any) {
         if addBookButton.isTouchInside {
             db.post(bookTitle: bookTitle.text!)
+            bookTitle.text = ""
+            
         }
         
         
