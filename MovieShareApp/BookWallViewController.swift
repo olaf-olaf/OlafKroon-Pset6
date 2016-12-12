@@ -9,67 +9,46 @@
 import UIKit
 import Firebase
 
+
 class BookWallViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var bookTitle: UITextField!
     @IBOutlet weak var addBookButton: UIButton!
     @IBOutlet weak var Tableview: UITableView!
+    let db = DatabaseHelper()
+    
     
     var posts = [Post]()
-    var postsSize = Int()
+    
+    // Initialise a global index variable so the prepareForSegue function can acces the cell index. 
     var index = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO: GET AL DATA FROM FIREBASE
-        
-//        var ref: FIRDatabaseReference?
-//        ref = FIRDatabase.database().reference()
-//       
-//        print("---------------CHECKING USER------------------------")
-//        let user = FIRAuth.auth()?.currentUser
-//        let email = user?.email
-//        print("RESULT:", email!)
-
+  
         // Do any additional setup after loading the view.
         let dataBaseref = FIRDatabase.database().reference()
         let dataId = dataBaseref.child("posts"); dataId.queryOrderedByKey().observe(.childAdded, with: { (snapshot) in
             
            
-            var ref = snapshot.ref
-            //KEY OF PARENT
-            
-            var parentId = ref.key
-            print("SNAPSHOT")
-            print("KEY", parentId)
+            // Get the key of the parent node
+            let ref = snapshot.ref
+            let parentId = ref.key
+         
 
-            
+            // Get all the values of child nodes.
             let value = snapshot.value as? NSDictionary
-            
-            
-            //let array = Array(value?.allValues)
-            //let id = value![""] as! String
-            //print("ID",id)
             let dataTitle = value!["title"] as! String
             let dataEmail = value!["email"] as! String
             let dataReserved = value!["reserved"] as! Bool
             
-            
+            // Initialise a 'Post' object and append it to the posts array.
             let postValue = Post(email: dataEmail, reserved: dataReserved, title: dataTitle)
             postValue.parent = parentId
             
-            print("ID PARENT", postValue.parent)
-            
             self.posts.insert(postValue, at: 0)
-            
-            print("ARRAY SIZE", self.posts.count)
            
-            self.postsSize = self.posts.count
-            
-            for element in self.posts {
-                print("EMAIL", element.email)
-            }
             self.Tableview.reloadData()
             
         })
@@ -77,33 +56,34 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
         Tableview.allowsMultipleSelectionDuringEditing = true
     }
     
+    // Enable editing of tablecells.
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
+    // Enable deletion of cells by the user.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
-        //MAKE SURE ONLY OWNERS OF THE BOOK CAN DELETE THEIR BOOKS
-        
+        // Update database.
         if editingStyle == .delete {
-            delete(parentId: posts[indexPath.row].parent, index: indexPath.row)
+            db.delete(parentId: posts[indexPath.row].parent, index: indexPath.row, posts: &posts)
+            tableView.reloadData()
+            for item in posts {
+                print(item.title)
+            }
         }
     }
     
-    
+    // Segue to next view if the user touches a cell.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("SELECTED")
         index = indexPath.row
         self.performSegue(withIdentifier: "nextView", sender: nil)
         
     }
     
-        
-    // A segue function that is called when a row is pressed.
+    
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination: BookDetailViewController = segue.destination as! BookDetailViewController
-        print("THIS IS INDEX", index)
-        print(posts[0].title)
         destination.segueTitle = posts[index].title
     }
 
@@ -175,7 +155,7 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBAction func addBook(_ sender: Any) {
         if addBookButton.isTouchInside {
-            post(bookTitle: bookTitle.text!)
+            db.post(bookTitle: bookTitle.text!)
         }
         
         

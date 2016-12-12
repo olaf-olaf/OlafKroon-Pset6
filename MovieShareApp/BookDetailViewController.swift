@@ -25,22 +25,11 @@ class BookDetailViewController: UIViewController {
         print("SEGUED", segueTitle)
         bookTextView.text = "IN VIEWDIDLOAD"
         //bookTitle.text = segueTitle
-         bookData = getJson(title: segueTitle)
+        bookData = getJson(title: segueTitle)
         if bookData.isEmpty {
             print("EMPTYDATA")
-            
-        } else {
-            print("THERE IS DATA")
         }
         
-        
-        
-     
-        
-        for item in bookData{
-            print("_______DATA__________")
-            print(item)
-        }
         super.viewDidLoad()
     }
     
@@ -111,6 +100,7 @@ class BookDetailViewController: UIViewController {
                 bookData.append(finalTitle)
                 bookData.append(finalAuthor)
                 bookData.append(finalDescription)
+                
                 
                 
                 
