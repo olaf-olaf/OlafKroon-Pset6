@@ -109,7 +109,7 @@ class BookDetailViewController: UIViewController {
             
             let titleBook = bookDetails.value(forKey: "title") as! String
             let finalTitle = titleBook
-            let coverUrl = URL(string: "http://dummyimage.com")
+            let coverUrl = URL(string: bookCover)
             
             print("TITLE", titleBook)
             print("AUTHOR", finalAuthor)
@@ -122,7 +122,7 @@ class BookDetailViewController: UIViewController {
             
             // Download task:
             // - sharedSession = global NSURLCache, NSHTTPCookieStorage and NSURLCredentialStorage objects.
-            let secondTask = URLSession.shared.dataTask(with: coverUrl!) { (responseData, responseUrl, error) -> Void in
+            let task = URLSession.shared.dataTask(with: coverUrl!) { (responseData, responseUrl, error) -> Void in
                 // if responseData is not null...
                 if let data = responseData{
                     print("DATA IS NOT NULL")
@@ -134,7 +134,7 @@ class BookDetailViewController: UIViewController {
                     print ("DATA IS EMPTY")
                 }
             }
-        
+        task.resume()
             
         
             
@@ -145,10 +145,8 @@ class BookDetailViewController: UIViewController {
                 // place code for main thread here
             
             }
-           
-         secondTask.resume()   
+            
         }
-        
         task.resume()
     }
 }
