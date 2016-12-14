@@ -18,7 +18,7 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var Tableview: UITableView!
     let db = DatabaseHelper()
     
-    
+    // An array of Post objects to store the retrieved data in.
     var posts = [Post]()
     
     // Initialise a global index variable so the prepareForSegue function can acces the cell index. 
@@ -27,7 +27,7 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+        // When the view is initialised or when something is added to the database reload all data
         let dataBaseref = FIRDatabase.database().reference()
         let dataId = dataBaseref.child("posts"); dataId.queryOrderedByKey().observe(.childAdded, with: { (snapshot) in
             
@@ -51,8 +51,6 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
             self.Tableview.reloadData()
             
         })
-        
-        Tableview.allowsMultipleSelectionDuringEditing = true
     }
     
     // Enable editing of tablecells.
@@ -87,11 +85,11 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-         print ("ARRAY SIZE IS", posts.count )
+
          return self.posts.count
     }
     
+    // Populate each cell with data from the Posts array.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! BookWallTableViewCell
         if cell == nil
@@ -112,10 +110,11 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
         
             }
         
-//        //configure left buttons
+        //Configure buttons on the left side of the cell
         cell.leftButtons = [MGSwipeButton(title: "Reserve",backgroundColor: UIColor.blue, callback: {
             (sender: MGSwipeTableCell!) -> Bool in
-            print("TOUCHED")
+            
+            //Update database and present a checkmark.
             self.db.updateReserved(index: indexPath.row, posts: &self.posts)
             if self.posts[indexPath.row].reserved == true {
                 cell.accessoryType = .checkmark
@@ -132,28 +131,45 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
+    // Add data to the database when user adds a book.
     @IBAction func addBook(_ sender: Any) {
         if addBookButton.isTouchInside {
             db.post(bookTitle: bookTitle.text!)
             bookTitle.text = ""
-            
+        }
+    }
+    // When the user quits the app encode state.
+    override func encodeRestorableState(with coder: NSCoder) {
+        
+        if let titleTextField = bookTitle.text {
+            coder.encode(titleTextField, forKey: "titleTextField")
         }
         
-        
+        super.encodeRestorableState(with: coder)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // When the user opens the app. Decode state.
+    override func decodeRestorableState(with coder: NSCoder) {
+        FIRApp.configure()
+        
+        
+        if let titleTextField = coder.decodeObject(forKey: "titleTextField") as? String {
+           
+            bookTitle.text = titleTextField
+        }
+        
+        super.decodeRestorableState(with: coder)
     }
-    */
-
+    
 }
+// Restore view.
+extension BookWallViewController: UIViewControllerRestoration {
+    static func viewController(withRestorationIdentifierPath identifierComponents: [Any],
+                               coder: NSCoder) -> UIViewController? {
+        let vc = BookWallViewController()
+        return vc
+    }
+}
+

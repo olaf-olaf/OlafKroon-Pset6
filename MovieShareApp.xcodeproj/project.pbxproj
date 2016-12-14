@@ -20,7 +20,6 @@
 		ED2176731DF6C80600A77792 /* MovieShareAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2176721DF6C80600A77792 /* MovieShareAppUITests.swift */; };
 		ED2176821DF6D23C00A77792 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED2176811DF6D23C00A77792 /* GoogleService-Info.plist */; };
 		ED5BAAF71DFEA25A00E71961 /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5BAAF61DFEA25A00E71961 /* DatabaseHelper.swift */; };
-		ED5BAAFC1DFEA9DA00E71961 /* BookWallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5BAAFB1DFEA9DA00E71961 /* BookWallManager.swift */; };
 		EDB124311DF82FF400EA3B04 /* BookWallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB124301DF82FF400EA3B04 /* BookWallTableViewCell.swift */; };
 		EDB124331DF8303000EA3B04 /* BookWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB124321DF8303000EA3B04 /* BookWallViewController.swift */; };
 		EDB124361DF8583C00EA3B04 /* PostClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB124351DF8583C00EA3B04 /* PostClass.swift */; };
@@ -69,7 +68,6 @@
 		ED2176741DF6C80600A77792 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED2176811DF6D23C00A77792 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED5BAAF61DFEA25A00E71961 /* DatabaseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseHelper.swift; sourceTree = "<group>"; };
-		ED5BAAFB1DFEA9DA00E71961 /* BookWallManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookWallManager.swift; sourceTree = "<group>"; };
 		EDB124301DF82FF400EA3B04 /* BookWallTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookWallTableViewCell.swift; sourceTree = "<group>"; };
 		EDB124321DF8303000EA3B04 /* BookWallViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookWallViewController.swift; sourceTree = "<group>"; };
 		EDB124351DF8583C00EA3B04 /* PostClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostClass.swift; sourceTree = "<group>"; };
@@ -156,7 +154,6 @@
 				ED2176561DF6C80600A77792 /* Main.storyboard */,
 				ED0D498F1DFA9B11009B9324 /* BookDetailViewController.swift */,
 				EDB124321DF8303000EA3B04 /* BookWallViewController.swift */,
-				ED5BAAFB1DFEA9DA00E71961 /* BookWallManager.swift */,
 				EDB124301DF82FF400EA3B04 /* BookWallTableViewCell.swift */,
 				EDB124351DF8583C00EA3B04 /* PostClass.swift */,
 				ED5BAAF61DFEA25A00E71961 /* DatabaseHelper.swift */,
@@ -474,7 +471,6 @@
 				ED5BAAF71DFEA25A00E71961 /* DatabaseHelper.swift in Sources */,
 				EDB124311DF82FF400EA3B04 /* BookWallTableViewCell.swift in Sources */,
 				EDB124361DF8583C00EA3B04 /* PostClass.swift in Sources */,
-				ED5BAAFC1DFEA9DA00E71961 /* BookWallManager.swift in Sources */,
 				ED2176531DF6C80600A77792 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

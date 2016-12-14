@@ -10,10 +10,6 @@ import UIKit
 import Firebase
 
 class ViewController: UIViewController {
-    
-    
-    //var ref: FIRDatabaseReference!
-    
 
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
@@ -22,14 +18,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // Log user in and Segue to next view
@@ -47,13 +39,10 @@ class ViewController: UIViewController {
         
         // When all data is retrieved segue to next view
         if FIRAuth.auth()?.currentUser != nil {
-            
-            // No need to send user data, Firebase keeps the user logged in.
-            
-            print("!---------LEGGO---------!")
             self.performSegue(withIdentifier: "nextView", sender: nil)
         }
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination: BookWallViewController = segue.destination as! BookWallViewController
@@ -61,6 +50,7 @@ class ViewController: UIViewController {
     }
 
     
+    // Allow the user to register
     @IBAction func touchRegister(_ sender: Any) {
         if register.isTouchInside {
             
@@ -76,13 +66,10 @@ class ViewController: UIViewController {
             
             // 3. Grab the value from the text field, and print it when the user clicks OK.
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-                let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+                let textField = alert?.textFields![0]
                 let secondTextField = alert?.textFields![1]
                 let email = textField!.text!
                 let password = secondTextField!.text!
-                
-                print("Email:", email)
-                print("Password:", password)
                 
                 // Register user.
                 FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user: FIRUser?, error) in
@@ -107,10 +94,53 @@ class ViewController: UIViewController {
                 
             }))
             
-            // 4. Present the alert.
+            // 4. Present the alert to register. 
             self.present(alert, animated: true, completion: nil)
             
         }
     }
+    // When the user quits the app encode state.
+    override func encodeRestorableState(with coder: NSCoder) {
+        
+        if let userEmail = email.text {
+            coder.encode(userEmail, forKey: "userEmail")
+        }
+        if let userPassword = password.text {
+            coder.encode(userPassword, forKey: "userPassword")
+        }
+        
+        
+        
+        super.encodeRestorableState(with: coder)
+    }
+    
+    // When the user opens the app. Decode state.
+    override func decodeRestorableState(with coder: NSCoder) {
+        
+        if let userEmail = coder.decodeObject(forKey: "userEmail") as? String {
+            print (userEmail)
+            email.text = userEmail
+        }
+        
+        if let userPassword = coder.decodeObject(forKey: "userPassword") as? String {
+           print (userPassword)
+           password.text = userPassword
+        }
+        
+        
+        super.decodeRestorableState(with: coder)
+        
+        
+    }
+    
 }
+// Restore view.
+extension ViewController: UIViewControllerRestoration {
+    static func viewController(withRestorationIdentifierPath identifierComponents: [Any],
+                               coder: NSCoder) -> UIViewController? {
+        let vc = ViewController()
+        return vc
+    }
+}
+
 

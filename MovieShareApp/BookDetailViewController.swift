@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftyJSON
 
 class BookDetailViewController: UIViewController {
     
@@ -16,23 +15,13 @@ class BookDetailViewController: UIViewController {
     @IBOutlet weak var bookTitle: UILabel!
     @IBOutlet weak var bookTextView: UITextView!
     
-    var data = [String: Any]()
+    //Store a title from the previous view.
     var segueTitle = String()
-    var bookData = [String]()
   
     override func viewDidLoad() {
         
-        print("SEGUED", segueTitle)
-        //bookTextView.text = "IN VIEWDIDLOAD"
-        //bookTitle.text = segueTitle
-//        bookData = getJson(title: segueTitle)
-//        if bookData.isEmpty {
-//            print("EMPTYDATA")
-//        }
-//        getUser(title: segueTitle, completionHandler: (NSDictionary?, NSError?) -> ())
+        //Get all data for a given title.
         getJson(title: segueTitle)
-     
-        
         super.viewDidLoad()
     }
     
@@ -44,39 +33,15 @@ class BookDetailViewController: UIViewController {
     
 
     
-    func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
-        URLSession.shared.dataTask(with: url) {
-            (data, response, error) in
-            completion(data, response, error)
-            }.resume()
-    }
-    
-    func downloadImage(url: URL) {
-        print("DOWNLOADING")
-        getDataFromUrl(url: url) { (data, response, error)  in
-            guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? url.lastPathComponent)
-            print("Download Finished")
-            DispatchQueue.main.async() { () -> Void in
-              self.bookCover.image = UIImage(data: data)
-           }
-        }
-    }
-
-    
-    
-    
- 
     
     func getJson(title: String) {
         
-        var coverUrl = String()
-        
+        //Create a url to connect to the google books api with the given title.
         let filler = title.replacingOccurrences(of: " ", with: "+", options: .literal, range: nil)
         let searchRequest = "https://www.googleapis.com/books/v1/volumes?q="+filler+"&maxResults=1&projection=lite&key=AIzaSyB-ad_p9CzeTM138KEXCkHIwhRhOZe5tlg"
-        
         let url = URL(string: searchRequest)
         
+        //Get data from the google books API. 
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             guard error == nil else {
                 print(error)
@@ -87,6 +52,7 @@ class BookDetailViewController: UIViewController {
                 return
             }
             
+             // Get values from json.
             let json = try! JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
             print(json)
           
@@ -94,7 +60,7 @@ class BookDetailViewController: UIViewController {
             
             let book = items[0] as! NSDictionary
             
-            
+           
             let bookDetails = book.value(forKey: "volumeInfo") as! NSDictionary
         
             
@@ -111,23 +77,14 @@ class BookDetailViewController: UIViewController {
             let finalTitle = titleBook
             let coverUrl = URL(string: bookCover)
             
-            print("TITLE", titleBook)
-            print("AUTHOR", finalAuthor)
-            print("DESCRIPTION", finalDescription)
-            print("IMAGELINK", bookCover)
-            
-            //self.downloadImage(url: coverUrl!)
-            
-    
-            
-            // Download task:
-            // - sharedSession = global NSURLCache, NSHTTPCookieStorage and NSURLCredentialStorage objects.
+            // Download Image
             let task = URLSession.shared.dataTask(with: coverUrl!) { (responseData, responseUrl, error) -> Void in
-                // if responseData is not null...
                 if let data = responseData{
                     print("DATA IS NOT NULL")
                     
                     DispatchQueue.main.async(execute: { () -> Void in
+                        
+                        //Present image in view
                         self.bookCover.image = UIImage(data: data)
                     })
                 } else {
@@ -137,51 +94,62 @@ class BookDetailViewController: UIViewController {
         task.resume()
             
         
-            
+            // Present data in view.
             DispatchQueue.main.sync() {
                 self.author.text = finalAuthor
                 self.bookTitle.text = finalTitle
                 self.bookTextView.text = finalDescription
-                // place code for main thread here
             
             }
             
         }
         task.resume()
     }
+    // When the user quits the app encode state.
+    override func encodeRestorableState(with coder: NSCoder) {
+        
+//        if let titleLabel = bookTitle.text {
+//            coder.encode(titleLabel, forKey: "titleLabel")
+//        }
+//        
+//        if let descriptionTextView = bookTextView.text {
+//            coder.encode(descriptionTextView , forKey: "descriptionTextView")
+//        }
+//        
+//        if let authorLabel = author.text {
+//            coder.encode(authorLabel , forKey: "authorLabel ")
+//        }
+//        
+        super.encodeRestorableState(with: coder)
+    }
+    
+    // When the user opens the app. Decode state.
+    override func decodeRestorableState(with coder: NSCoder) {
+        
+//        if let userEmail = coder.decodeObject(forKey: "userEmail") as? String {
+//            print (userEmail)
+//            email.text = userEmail
+//        }
+//        
+//        if let userPassword = coder.decodeObject(forKey: "userPassword") as? String {
+//            print (userPassword)
+//            password.text = userPassword
+//        }
+        
+        
+        super.decodeRestorableState(with: coder)
+        
+        
+    }
+    
 }
-
-
-
-    func downloadImage(url: URL) {
-        print("Download Started")
-        URLSession.shared.dataTask(with: url) { (data, response, error)  in
-            guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? url.lastPathComponent)
-            print("Download Finished")
-            //DispatchQueue.main.async() { () -> Void in
-                //bookCover.image = UIImage(data: data)
-            
-            //self.bookCover.image = UIImage(data: data)
-
-            //}
+// Restore view.
+extension BookDetailViewController: UIViewControllerRestoration {
+    static func viewController(withRestorationIdentifierPath identifierComponents: [Any],
+                               coder: NSCoder) -> UIViewController? {
+        let vc = BookDetailViewController()
+        return vc
     }
 }
-
-
-
-
-
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 
