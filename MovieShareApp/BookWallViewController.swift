@@ -13,6 +13,7 @@ import MGSwipeTableCell
 
 class BookWallViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var logOut: UIButton!
     @IBOutlet weak var bookTitle: UITextField!
     @IBOutlet weak var addBookButton: UIButton!
     @IBOutlet weak var Tableview: UITableView!
@@ -78,8 +79,14 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     
     
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destination: BookDetailViewController = segue.destination as! BookDetailViewController
-        destination.segueTitle = posts[index].title
+        if segue.identifier == "nextView" {
+            let destination: BookDetailViewController = segue.destination as! BookDetailViewController
+            destination.segueTitle = posts[index].title
+        } else if segue.identifier == "previousView" {
+            
+            let destination: ViewController = segue.destination as! ViewController
+            
+        }
     }
 
    
@@ -133,6 +140,31 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
         super.didReceiveMemoryWarning()
     }
     
+    @IBAction func logUserOut(_ sender: Any) {
+        
+        if logOut.isTouchInside {
+            
+          
+//            FIRAuth.signOut().then(function() {
+//                print("Sign-out successful.")
+//                self.performSegue(withIdentifier: "previousView", sender: nil)
+//
+//                }, function(error) {
+//                print("couldn't sign out user")
+//            });
+            
+            let firebaseAuth = FIRAuth.auth()
+            do {
+                try firebaseAuth?.signOut()
+                print("SIGNED OUT")
+                self.performSegue(withIdentifier: "previousView", sender: nil)
+            } catch let signOutError as NSError {
+                print ("Error signing out: %@", signOutError)
+            }
+            
+            
+        }
+    }
     // Add data to the database when user adds a book.
     @IBAction func addBook(_ sender: Any) {
         if addBookButton.isTouchInside {
@@ -140,36 +172,6 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
             bookTitle.text = ""
         }
     }
-    // When the user quits the app encode state.
-    override func encodeRestorableState(with coder: NSCoder) {
-        
-        if let titleTextField = bookTitle.text {
-            coder.encode(titleTextField, forKey: "titleTextField")
-        }
-        
-        super.encodeRestorableState(with: coder)
-    }
-    
-    // When the user opens the app. Decode state.
-    override func decodeRestorableState(with coder: NSCoder) {
-        FIRApp.configure()
-        
-        
-        if let titleTextField = coder.decodeObject(forKey: "titleTextField") as? String {
-           
-            bookTitle.text = titleTextField
-        }
-        
-        super.decodeRestorableState(with: coder)
-    }
-    
 }
-// Restore view.
-extension BookWallViewController: UIViewControllerRestoration {
-    static func viewController(withRestorationIdentifierPath identifierComponents: [Any],
-                               coder: NSCoder) -> UIViewController? {
-        let vc = BookWallViewController()
-        return vc
-    }
-}
+
 

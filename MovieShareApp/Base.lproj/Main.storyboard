@@ -82,26 +82,35 @@
         <!--Book Wall View Controller-->
         <scene sceneID="gYs-rq-ML4">
             <objects>
-                <viewController storyboardIdentifier="BookWallViewControllor" useStoryboardIdentifierAsRestorationIdentifier="YES" id="UdN-EM-RyM" customClass="BookWallViewController" customModule="MovieShareApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="UdN-EM-RyM" customClass="BookWallViewController" customModule="MovieShareApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lEt-wO-RkN"/>
                         <viewControllerLayoutGuide type="bottom" id="fAu-SI-YpD"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" restorationIdentifier="ViewTwo" id="nZ4-fq-sz6">
+                    <view key="view" contentMode="scaleToFill" id="nZ4-fq-sz6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" restorationIdentifier="StackViewTwoOne" distribution="fillEqually" spacing="75" translatesAutoresizingMaskIntoConstraints="NO" id="5Jt-hI-wsb">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="5Jt-hI-wsb">
                                 <rect key="frame" x="48" y="28" width="279" height="30"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="bookTitle" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title of book" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WBt-rk-gMa">
-                                        <rect key="frame" x="0.0" y="0.0" width="102" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hyT-8r-HLO">
+                                        <rect key="frame" x="0.0" y="0.0" width="60.5" height="30"/>
+                                        <state key="normal" title="Log out">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="logUserOut:" destination="UdN-EM-RyM" eventType="touchUpInside" id="yF3-Rb-Ii0"/>
+                                        </connections>
+                                    </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title of book" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WBt-rk-gMa">
+                                        <rect key="frame" x="70.5" y="0.0" width="118.5" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="addBook" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jv8-45-20M">
-                                        <rect key="frame" x="177" y="0.0" width="102" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jv8-45-20M">
+                                        <rect key="frame" x="199" y="0.0" width="80" height="30"/>
                                         <color key="backgroundColor" red="0.50196081400000003" green="0.24558289233011701" blue="0.28375465233397046" alpha="0.4621228448275862" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Add book">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -113,21 +122,21 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" restorationIdentifier="stackViewTwoTwo" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ViH-00-GgN">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ViH-00-GgN">
                                 <rect key="frame" x="0.0" y="66" width="375" height="601"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TableView" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vtn-Wz-r1F">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vtn-Wz-r1F">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="601"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="tableViewCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="6Or-Yg-YXn" customClass="BookWallTableViewCell" customModule="MovieShareApp" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="6Or-Yg-YXn" customClass="BookWallTableViewCell" customModule="MovieShareApp" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="contentView" tableViewCell="6Or-Yg-YXn" id="mYV-Rn-ruM">
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Or-Yg-YXn" id="mYV-Rn-ruM">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="emailOfOwner" text="emailOfOwner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lwg-XN-zDP">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="emailOfOwner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lwg-XN-zDP">
                                                             <rect key="frame" x="8" y="59" width="367" height="21"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="lwg-XN-zDP" secondAttribute="height" multiplier="367:21" id="6Fn-TN-FCo"/>
@@ -136,7 +145,7 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="cellTitle" text="bookTitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2u-ej-iqu">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="bookTitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2u-ej-iqu">
                                                             <rect key="frame" x="8" y="29" width="359" height="22"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="h2u-ej-iqu" secondAttribute="height" multiplier="359:22" id="qSB-Wo-Ncs"/>
@@ -186,7 +195,9 @@
                         <outlet property="Tableview" destination="vtn-Wz-r1F" id="nA1-H0-tdR"/>
                         <outlet property="addBookButton" destination="jv8-45-20M" id="muM-4E-w0d"/>
                         <outlet property="bookTitle" destination="WBt-rk-gMa" id="Vjx-mx-i3Z"/>
+                        <outlet property="logOut" destination="hyT-8r-HLO" id="mjt-JP-jik"/>
                         <segue destination="jfb-R2-tee" kind="show" identifier="nextView" id="ScX-5r-SJc"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="previousView" id="y8j-DB-8OI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MVf-50-NZR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -231,7 +242,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="BookTextView" text="WAAROM WERKT DIT NIET!" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="lW2-vA-cmx">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="BookTextView" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="lW2-vA-cmx">
                                 <rect key="frame" x="0.0" y="340" width="375" height="252"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>

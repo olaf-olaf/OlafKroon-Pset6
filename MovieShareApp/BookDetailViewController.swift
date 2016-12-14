@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class BookDetailViewController: UIViewController {
     
@@ -105,51 +106,8 @@ class BookDetailViewController: UIViewController {
         }
         task.resume()
     }
-    // When the user quits the app encode state.
-    override func encodeRestorableState(with coder: NSCoder) {
-        
-//        if let titleLabel = bookTitle.text {
-//            coder.encode(titleLabel, forKey: "titleLabel")
-//        }
-//        
-//        if let descriptionTextView = bookTextView.text {
-//            coder.encode(descriptionTextView , forKey: "descriptionTextView")
-//        }
-//        
-//        if let authorLabel = author.text {
-//            coder.encode(authorLabel , forKey: "authorLabel ")
-//        }
-//        
-        super.encodeRestorableState(with: coder)
-    }
-    
-    // When the user opens the app. Decode state.
-    override func decodeRestorableState(with coder: NSCoder) {
-        
-//        if let userEmail = coder.decodeObject(forKey: "userEmail") as? String {
-//            print (userEmail)
-//            email.text = userEmail
-//        }
-//        
-//        if let userPassword = coder.decodeObject(forKey: "userPassword") as? String {
-//            print (userPassword)
-//            password.text = userPassword
-//        }
-        
-        
-        super.decodeRestorableState(with: coder)
-        
-        
-    }
-    
+
 }
-// Restore view.
-extension BookDetailViewController: UIViewControllerRestoration {
-    static func viewController(withRestorationIdentifierPath identifierComponents: [Any],
-                               coder: NSCoder) -> UIViewController? {
-        let vc = BookDetailViewController()
-        return vc
-    }
-}
+
 
 

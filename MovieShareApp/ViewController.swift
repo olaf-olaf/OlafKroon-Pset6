@@ -89,9 +89,6 @@ class ViewController: UIViewController {
                 } catch let signOutError as NSError {
                     print ("Error signing out: %@", signOutError)
                 }
-                
-              
-                
             }))
             
             // 4. Present the alert to register. 
@@ -127,10 +124,7 @@ class ViewController: UIViewController {
            password.text = userPassword
         }
         
-        
         super.decodeRestorableState(with: coder)
-        
-        
     }
     
 }
