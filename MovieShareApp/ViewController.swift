@@ -16,9 +16,46 @@ class ViewController: UIViewController {
     @IBOutlet weak var login: UIButton!
     @IBOutlet weak var register: UIButton!
     
+    
+    // Initalise NSuserdefaults
+     //let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        let userEmail = UserDefaultsClass.sharedInstance.defaults.string(forKey: "email")
+        let userPassword = UserDefaultsClass.sharedInstance.defaults.string(forKey: "password")
+        print(userEmail)
+        print(userPassword)
+        
+        if  userEmail == nil {
+            print("NO DATA IN DEFAULTS")
+        } else {
+            
+            if(FIRApp.defaultApp() == nil){
+                FIRApp.configure()
+            }
+            print("START LOGIN")
+            FIRAuth.auth()?.signIn(withEmail: userEmail!, password: userPassword!) { (user, error) in
+                if error == nil {
+                    
+                    
+                        print("autolog in successful")
+                        self.performSegue(withIdentifier: "nextView", sender: nil)
+
+                    }else{
+                        print("autolog in failed")
+                    }
+                }
+            
+            if FIRAuth.auth()?.currentUser != nil {
+                    self.performSegue(withIdentifier: "nextView", sender: nil)
+            }
+        }
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -26,19 +63,31 @@ class ViewController: UIViewController {
 
     // Log user in and Segue to next view
     @IBAction func touchLogin(_ sender: Any) {
+//        if(FIRApp.defaultApp() == nil){
+//            FIRApp.configure()
+//        }
         
         let email = self.email.text!
         let password = self.password.text!
+        
+        // Update userdefaults
+        UserDefaultsClass.sharedInstance.defaults.set(email, forKey: "email")
+        UserDefaultsClass.sharedInstance.defaults.set(password, forKey: "password")
+        
+        print("UPDATED USERDEFAULTS")
         FIRAuth.auth()?.signIn(withEmail: email, password: password) { (user, error) in
             if error == nil {
+                
+               
                 print("log in successful")
             }else{
                 print("log in failed")
             }
         }
         
-        // When all data is retrieved segue to next view
+        // When all data is retrieved  segue to next view
         if FIRAuth.auth()?.currentUser != nil {
+        
             self.performSegue(withIdentifier: "nextView", sender: nil)
         }
     }
@@ -52,6 +101,9 @@ class ViewController: UIViewController {
     
     // Allow the user to register
     @IBAction func touchRegister(_ sender: Any) {
+//        if(FIRApp.defaultApp() == nil){
+//            FIRApp.configure()
+//        }
         if register.isTouchInside {
             
             //1. Create the alert controller.
@@ -68,11 +120,13 @@ class ViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
                 let textField = alert?.textFields![0]
                 let secondTextField = alert?.textFields![1]
-                let email = textField!.text!
-                let password = secondTextField!.text!
+                let userEmail = textField!.text!
+                print("EMAIL", userEmail)
+                let userPassword = secondTextField!.text!
+                print("PASSWORD", userPassword)
                 
                 // Register user.
-                FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user: FIRUser?, error) in
+                FIRAuth.auth()?.createUser(withEmail: userEmail, password: userPassword, completion: { (user: FIRUser?, error) in
                     if error == nil {
                         print("registration successful")
                     }else{
@@ -96,6 +150,8 @@ class ViewController: UIViewController {
             
         }
     }
+    
+    
     // When the user quits the app encode state.
     override func encodeRestorableState(with coder: NSCoder) {
         
@@ -106,8 +162,6 @@ class ViewController: UIViewController {
             coder.encode(userPassword, forKey: "userPassword")
         }
         
-        
-        
         super.encodeRestorableState(with: coder)
     }
     
@@ -115,12 +169,10 @@ class ViewController: UIViewController {
     override func decodeRestorableState(with coder: NSCoder) {
         
         if let userEmail = coder.decodeObject(forKey: "userEmail") as? String {
-            print (userEmail)
             email.text = userEmail
         }
         
         if let userPassword = coder.decodeObject(forKey: "userPassword") as? String {
-           print (userPassword)
            password.text = userPassword
         }
         

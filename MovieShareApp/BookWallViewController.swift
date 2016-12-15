@@ -19,6 +19,7 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var Tableview: UITableView!
     let db = DatabaseHelper()
     
+    
     // An array of Post objects to store the retrieved data in.
     var posts = [Post]()
     
@@ -143,19 +144,11 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func logUserOut(_ sender: Any) {
         
         if logOut.isTouchInside {
-            
-          
-//            FIRAuth.signOut().then(function() {
-//                print("Sign-out successful.")
-//                self.performSegue(withIdentifier: "previousView", sender: nil)
-//
-//                }, function(error) {
-//                print("couldn't sign out user")
-//            });
-            
             let firebaseAuth = FIRAuth.auth()
             do {
                 try firebaseAuth?.signOut()
+                UserDefaultsClass.sharedInstance.defaults.removeObject(forKey: "email")
+                UserDefaultsClass.sharedInstance.defaults.removeObject(forKey: "password")
                 print("SIGNED OUT")
                 self.performSegue(withIdentifier: "previousView", sender: nil)
             } catch let signOutError as NSError {
