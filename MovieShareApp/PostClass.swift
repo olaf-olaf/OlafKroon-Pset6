@@ -5,6 +5,7 @@
 //  Created by Olaf Kroon on 07/12/16.
 //  Copyright © 2016 Olaf Kroon. All rights reserved.
 //
+// A class that is used to store data that's retreived when reading from firebase.
 
 import Foundation
 

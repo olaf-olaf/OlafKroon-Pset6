@@ -5,6 +5,8 @@
 //  Created by Olaf Kroon on 09/12/16.
 //  Copyright © 2016 Olaf Kroon. All rights reserved.
 //
+// BookdetailViewControllor.swift gets a json from the google books api and presents 
+// data in a viewControllor.
 
 import UIKit
 import Firebase
@@ -37,12 +39,12 @@ class BookDetailViewController: UIViewController {
     
     func getJson(title: String) {
         
-        //Create a url to connect to the google books api with the given title.
+        // Create a url to connect to the google books api with the given title.
         let filler = title.replacingOccurrences(of: " ", with: "+", options: .literal, range: nil)
         let searchRequest = "https://www.googleapis.com/books/v1/volumes?q="+filler+"&maxResults=1&projection=lite&key=AIzaSyB-ad_p9CzeTM138KEXCkHIwhRhOZe5tlg"
         let url = URL(string: searchRequest)
         
-        //Get data from the google books API. 
+        // Get data from the google books API.
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             guard error == nil else {
                 print(error)
@@ -56,57 +58,61 @@ class BookDetailViewController: UIViewController {
              // Get values from json.
             let json = try! JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
             print(json)
+            
+            let itemscount = json.value(forKey: "totalItems") as! Int
+            
+
+            // Only get data if the given title is in the google books database.
+            if itemscount != 0 {
           
-            let items = json.value(forKey: "items") as! NSArray
+                let items = json.value(forKey: "items") as! NSArray
             
-            let book = items[0] as! NSDictionary
+                let book = items[0] as! NSDictionary
             
-           
-            let bookDetails = book.value(forKey: "volumeInfo") as! NSDictionary
+                let bookDetails = book.value(forKey: "volumeInfo") as! NSDictionary
         
+                let bookImages = bookDetails.value(forKey: "imageLinks") as! NSDictionary
+                let bookCover = bookImages.value(forKey: "thumbnail") as! String
             
-            let bookImages = bookDetails.value(forKey: "imageLinks") as! NSDictionary
-            let bookCover = bookImages.value(forKey: "thumbnail") as! String
+                let bookAuthor = bookDetails.value(forKey: "authors") as! NSArray
+                let finalAuthor = bookAuthor[0] as! String
             
-            let bookAuthor = bookDetails.value(forKey: "authors") as! NSArray
-            let finalAuthor = bookAuthor[0] as! String
+                let bookDescription = bookDetails.value(forKey: "description")
+                let finalDescription = bookDescription! as! String
             
-            let bookDescription = bookDetails.value(forKey: "description")
-            let finalDescription = bookDescription! as! String
+                let titleBook = bookDetails.value(forKey: "title") as! String
+                let finalTitle = titleBook
+                let coverUrl = URL(string: bookCover)
             
-            let titleBook = bookDetails.value(forKey: "title") as! String
-            let finalTitle = titleBook
-            let coverUrl = URL(string: bookCover)
-            
-            // Download Image
-            let task = URLSession.shared.dataTask(with: coverUrl!) { (responseData, responseUrl, error) -> Void in
-                if let data = responseData{
-                    print("DATA IS NOT NULL")
+                // Download Image
+                let task = URLSession.shared.dataTask(with: coverUrl!) { (responseData, responseUrl, error) -> Void in
+                    if let data = responseData{
+                        print("DATA IS NOT NULL")
                     
-                    DispatchQueue.main.async(execute: { () -> Void in
+                        DispatchQueue.main.async(execute: { () -> Void in
                         
-                        //Present image in view
-                        self.bookCover.image = UIImage(data: data)
-                    })
-                } else {
+                            //Present image in view
+                            self.bookCover.image = UIImage(data: data)
+                        })
+                    } else {
                     print ("DATA IS EMPTY")
+                    }
                 }
-            }
-        task.resume()
+                task.resume()
             
         
-            // Present data in view.
-            DispatchQueue.main.sync() {
-                self.author.text = finalAuthor
-                self.bookTitle.text = finalTitle
-                self.bookTextView.text = finalDescription
+                // Present data in view.
+                DispatchQueue.main.sync() {
+                    self.author.text = finalAuthor
+                    self.bookTitle.text = finalTitle
+                    self.bookTextView.text = finalDescription
             
+                }
             }
             
         }
         task.resume()
     }
-
 }
 
 

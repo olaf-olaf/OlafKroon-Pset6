@@ -5,6 +5,10 @@
 //  Created by Olaf Kroon on 06/12/16.
 //  Copyright © 2016 Olaf Kroon. All rights reserved.
 //
+// ViewControllor.swift is the log in / register screen of the app. If the user logs in his
+// username and password are stored in userdefaults to automatically log the user in. The user
+// can register via an alertview. 
+//
 
 import UIKit
 import Firebase
@@ -17,33 +21,27 @@ class ViewController: UIViewController {
     @IBOutlet weak var register: UIButton!
     
     
-    // Initalise NSuserdefaults
-     //let defaults = UserDefaults.standard
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
+        // If the user hasn't logged out previously, log in automatically.
         let userEmail = UserDefaultsClass.sharedInstance.defaults.string(forKey: "email")
         let userPassword = UserDefaultsClass.sharedInstance.defaults.string(forKey: "password")
-        print(userEmail)
-        print(userPassword)
-        
         if  userEmail == nil {
             print("NO DATA IN DEFAULTS")
         } else {
             
+            //Configure Firebase if it hasn't configured yet.
             if(FIRApp.defaultApp() == nil){
                 FIRApp.configure()
             }
-            print("START LOGIN")
+           
+            // Log user in and segue to next view.
             FIRAuth.auth()?.signIn(withEmail: userEmail!, password: userPassword!) { (user, error) in
                 if error == nil {
-                    
-                    
-                        print("autolog in successful")
-                        self.performSegue(withIdentifier: "nextView", sender: nil)
+                    print("autolog in successful")
+                    self.performSegue(withIdentifier: "nextView", sender: nil)
 
                     }else{
                         print("autolog in failed")
@@ -61,33 +59,31 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
-    // Log user in and Segue to next view
+    // Log user in and Segue to next view.
     @IBAction func touchLogin(_ sender: Any) {
-//        if(FIRApp.defaultApp() == nil){
-//            FIRApp.configure()
-//        }
         
         let email = self.email.text!
         let password = self.password.text!
         
-        // Update userdefaults
+        // Update userdefaults.
         UserDefaultsClass.sharedInstance.defaults.set(email, forKey: "email")
         UserDefaultsClass.sharedInstance.defaults.set(password, forKey: "password")
         
-        print("UPDATED USERDEFAULTS")
         FIRAuth.auth()?.signIn(withEmail: email, password: password) { (user, error) in
             if error == nil {
-                
-               
                 print("log in successful")
             }else{
+                
+                // If the username and/or password is invalid, show a alert to user.
                 print("log in failed")
+                let alert = UIAlertController(title: "invalid email and/or password", message: "", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         }
         
         // When all data is retrieved  segue to next view
         if FIRAuth.auth()?.currentUser != nil {
-        
             self.performSegue(withIdentifier: "nextView", sender: nil)
         }
     }
@@ -99,31 +95,27 @@ class ViewController: UIViewController {
     }
 
     
-    // Allow the user to register
+    // Allow the user to register.
     @IBAction func touchRegister(_ sender: Any) {
-//        if(FIRApp.defaultApp() == nil){
-//            FIRApp.configure()
-//        }
+        
         if register.isTouchInside {
             
-            //1. Create the alert controller.
+            // Create the alert controller.
             let alert = UIAlertController(title: "Register", message: "Enter your email and password", preferredStyle: .alert)
             
-            //2. Add the text field. You can configure it however you need.
+            // Add the text field. You can configure it however you need.
             alert.addTextField { (textField) in
                 textField.placeholder = "Email"
             }
             alert.addTextField { (secondTextField) in secondTextField.placeholder = "Password"
             }
             
-            // 3. Grab the value from the text field, and print it when the user clicks OK.
+            //  Grab the value from the text field when the user clicks OK.
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
                 let textField = alert?.textFields![0]
                 let secondTextField = alert?.textFields![1]
                 let userEmail = textField!.text!
-                print("EMAIL", userEmail)
                 let userPassword = secondTextField!.text!
-                print("PASSWORD", userPassword)
                 
                 // Register user.
                 FIRAuth.auth()?.createUser(withEmail: userEmail, password: userPassword, completion: { (user: FIRUser?, error) in
@@ -135,7 +127,7 @@ class ViewController: UIViewController {
                    
                 })
                 
-                // Directly log user out after registration
+                // Directly log user out after registration.
                 let firebaseAuth = FIRAuth.auth()
                 do {
                     try firebaseAuth?.signOut()
@@ -145,7 +137,7 @@ class ViewController: UIViewController {
                 }
             }))
             
-            // 4. Present the alert to register. 
+            //  Present the alert to register.
             self.present(alert, animated: true, completion: nil)
             
         }

@@ -5,6 +5,7 @@
 //  Created by Olaf Kroon on 15/12/16.
 //  Copyright © 2016 Olaf Kroon. All rights reserved.
 //
+// A singleton for userdefaults so they can be accesed in global scope. 
 
 import Foundation
 
@@ -20,9 +21,4 @@ class UserDefaultsClass {
     private init(){
         
     }
-    
-    //let userEmail = UserDefaultsClass.sharedInstance.defaults.object(forKey: "email") as! String
-    //        let userPassword = UserDefaultsClass.sharedInstance.defaults.object(forKey: "email") as! String
-    
-    
 }

@@ -5,6 +5,8 @@
 //  Created by Olaf Kroon on 07/12/16.
 //  Copyright © 2016 Olaf Kroon. All rights reserved.
 //
+//  BookWallViewController.swift gets books of users from the firebase database and presents
+//  them in a table. Users can delete, reserve and add books to the table.
 
 import UIKit
 import Firebase
@@ -17,6 +19,7 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var bookTitle: UITextField!
     @IBOutlet weak var addBookButton: UIButton!
     @IBOutlet weak var Tableview: UITableView!
+    
     let db = DatabaseHelper()
     
     
@@ -64,10 +67,20 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     // Enable deletion of cells by the user.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
-        // Update database.
+        // Update database when a cell.  is deleted.
         if editingStyle == .delete {
-            db.delete(parentId: posts[indexPath.row].parent, index: indexPath.row, posts: &posts)
-            tableView.reloadData()
+            let currentUser = FIRAuth.auth()?.currentUser
+            let cellUser = posts[indexPath.row].email
+            
+                // Make sure only the owner of a book can delete it.
+                if cellUser == currentUser?.email {
+                    db.delete(parentId: posts[indexPath.row].parent, index: indexPath.row, posts: &posts)
+                tableView.reloadData()
+                } else {
+                    let alert = UIAlertController(title: "You can only delete your own books!", message: "", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
         }
     }
     
@@ -99,11 +112,7 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
     
     // Populate each cell with data from the Posts array.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! BookWallTableViewCell
-        if cell == nil
-        {
-            cell = BookWallTableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! BookWallTableViewCell
         
             cell.title.text = posts[indexPath.row].title
         
@@ -141,10 +150,13 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
         super.didReceiveMemoryWarning()
     }
     
+    
+    // If button is pressed log the user out.
     @IBAction func logUserOut(_ sender: Any) {
-        
         if logOut.isTouchInside {
             let firebaseAuth = FIRAuth.auth()
+            
+            // Sign user out from firebase and delete his data from the userdefaults. 
             do {
                 try firebaseAuth?.signOut()
                 UserDefaultsClass.sharedInstance.defaults.removeObject(forKey: "email")
@@ -155,14 +167,24 @@ class BookWallViewController: UIViewController, UITableViewDelegate, UITableView
                 print ("Error signing out: %@", signOutError)
             }
             
-            
         }
     }
+    
     // Add data to the database when user adds a book.
     @IBAction func addBook(_ sender: Any) {
         if addBookButton.isTouchInside {
-            db.post(bookTitle: bookTitle.text!)
-            bookTitle.text = ""
+            
+            // Check if the userinput is valid.
+            if bookTitle.text == "" {
+                let alert = UIAlertController(title: "please Enter a title", message: "", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            
+            // Add book to database.
+            } else {
+                db.post(bookTitle: bookTitle.text!)
+                bookTitle.text = ""
+            }
         }
     }
 }
