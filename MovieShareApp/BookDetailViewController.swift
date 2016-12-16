@@ -23,7 +23,6 @@ class BookDetailViewController: UIViewController {
   
     override func viewDidLoad() {
         
-        //Get all data for a given title.
         getJson(title: segueTitle)
         super.viewDidLoad()
     }
@@ -39,12 +38,10 @@ class BookDetailViewController: UIViewController {
     
     func getJson(title: String) {
         
-        // Create a url to connect to the google books api with the given title.
         let filler = title.replacingOccurrences(of: " ", with: "+", options: .literal, range: nil)
         let searchRequest = "https://www.googleapis.com/books/v1/volumes?q="+filler+"&maxResults=1&projection=lite&key=AIzaSyB-ad_p9CzeTM138KEXCkHIwhRhOZe5tlg"
         let url = URL(string: searchRequest)
         
-        // Get data from the google books API.
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             guard error == nil else {
                 print(error)
@@ -55,7 +52,7 @@ class BookDetailViewController: UIViewController {
                 return
             }
             
-             // Get values from json.
+            
             let json = try! JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
             print(json)
             
@@ -101,7 +98,7 @@ class BookDetailViewController: UIViewController {
                 task.resume()
             
         
-                // Present data in view.
+                // Use DispatchQueue.main.sync to put data from an async funtion on the main thread.
                 DispatchQueue.main.sync() {
                     self.author.text = finalAuthor
                     self.bookTitle.text = finalTitle

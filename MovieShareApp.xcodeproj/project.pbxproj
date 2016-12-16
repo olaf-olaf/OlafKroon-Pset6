@@ -24,6 +24,7 @@
 		EDB124331DF8303000EA3B04 /* BookWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB124321DF8303000EA3B04 /* BookWallViewController.swift */; };
 		EDB124361DF8583C00EA3B04 /* PostClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB124351DF8583C00EA3B04 /* PostClass.swift */; };
 		EDCB27031E02AE6C001874C0 /* userdefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCB27021E02AE6C001874C0 /* userdefaults.swift */; };
+		EDF51A781E04439A00CB231F /* ReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = EDF51A771E04439A00CB231F /* ReadMe.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		EDB124321DF8303000EA3B04 /* BookWallViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookWallViewController.swift; sourceTree = "<group>"; };
 		EDB124351DF8583C00EA3B04 /* PostClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostClass.swift; sourceTree = "<group>"; };
 		EDCB27021E02AE6C001874C0 /* userdefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userdefaults.swift; sourceTree = "<group>"; };
+		EDF51A771E04439A00CB231F /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 		ED2176511DF6C80600A77792 /* MovieShareApp */ = {
 			isa = PBXGroup;
 			children = (
+				EDF51A771E04439A00CB231F /* ReadMe.md */,
 				EDF51A741E04177200CB231F /* Model */,
 				EDF51A761E04179100CB231F /* Controller */,
 				EDF51A751E04178500CB231F /* View */,
@@ -193,8 +196,8 @@
 		EDF51A751E04178500CB231F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				ED2176561DF6C80600A77792 /* Main.storyboard */,
 				ED21765B1DF6C80600A77792 /* LaunchScreen.storyboard */,
+				ED2176561DF6C80600A77792 /* Main.storyboard */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -500,6 +503,7 @@
 				EDB124311DF82FF400EA3B04 /* BookWallTableViewCell.swift in Sources */,
 				EDB124361DF8583C00EA3B04 /* PostClass.swift in Sources */,
 				ED2176531DF6C80600A77792 /* AppDelegate.swift in Sources */,
+				EDF51A781E04439A00CB231F /* ReadMe.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
