@@ -95,7 +95,7 @@ class BookDetailViewController: UIViewController {
                             self.bookCover.image = UIImage(data: data)
                         })
                     } else {
-                    print ("DATA IS EMPTY")
+                        print ("DATA IS EMPTY")
                     }
                 }
                 task.resume()

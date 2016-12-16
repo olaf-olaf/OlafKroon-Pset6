@@ -151,17 +151,10 @@
 		ED2176511DF6C80600A77792 /* MovieShareApp */ = {
 			isa = PBXGroup;
 			children = (
-				ED2176521DF6C80600A77792 /* AppDelegate.swift */,
-				ED2176541DF6C80600A77792 /* ViewController.swift */,
-				ED2176561DF6C80600A77792 /* Main.storyboard */,
-				ED0D498F1DFA9B11009B9324 /* BookDetailViewController.swift */,
-				EDB124321DF8303000EA3B04 /* BookWallViewController.swift */,
-				EDB124301DF82FF400EA3B04 /* BookWallTableViewCell.swift */,
-				EDB124351DF8583C00EA3B04 /* PostClass.swift */,
-				ED5BAAF61DFEA25A00E71961 /* DatabaseHelper.swift */,
-				EDCB27021E02AE6C001874C0 /* userdefaults.swift */,
+				EDF51A741E04177200CB231F /* Model */,
+				EDF51A761E04179100CB231F /* Controller */,
+				EDF51A751E04178500CB231F /* View */,
 				ED2176591DF6C80600A77792 /* Assets.xcassets */,
-				ED21765B1DF6C80600A77792 /* LaunchScreen.storyboard */,
 				ED21765E1DF6C80600A77792 /* Info.plist */,
 				ED2176811DF6D23C00A77792 /* GoogleService-Info.plist */,
 			);
@@ -184,6 +177,37 @@
 				ED2176741DF6C80600A77792 /* Info.plist */,
 			);
 			path = MovieShareAppUITests;
+			sourceTree = "<group>";
+		};
+		EDF51A741E04177200CB231F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				ED2176521DF6C80600A77792 /* AppDelegate.swift */,
+				EDB124351DF8583C00EA3B04 /* PostClass.swift */,
+				ED5BAAF61DFEA25A00E71961 /* DatabaseHelper.swift */,
+				EDCB27021E02AE6C001874C0 /* userdefaults.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		EDF51A751E04178500CB231F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ED2176561DF6C80600A77792 /* Main.storyboard */,
+				ED21765B1DF6C80600A77792 /* LaunchScreen.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		EDF51A761E04179100CB231F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				ED2176541DF6C80600A77792 /* ViewController.swift */,
+				EDB124301DF82FF400EA3B04 /* BookWallTableViewCell.swift */,
+				EDB124321DF8303000EA3B04 /* BookWallViewController.swift */,
+				ED0D498F1DFA9B11009B9324 /* BookDetailViewController.swift */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
